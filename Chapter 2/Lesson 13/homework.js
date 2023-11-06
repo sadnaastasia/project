@@ -4,7 +4,7 @@ while (true) {
 let number = prompt ('Введите число');
 
     if (number === '' || number === null) break; 
-    if (isNaN(number)===true) {
+    if (isNaN(number)) {
         alert('Это не число!'); continue;
     }
     sum += +number;
