@@ -10,16 +10,9 @@
     <script>
 let a = +prompt ('Введите число a','');
 let b = +prompt ('Введите число b','');
-function min(a, b) {
-  if (a < b) {
-      alert(a);
-  } 
-  if (b < a) {
-      alert(b);
-  }
-}
+min = (a, b) => a < b? a: b;
 
-min(a, b);
+alert( min(a, b) );
     </script>
 
 </body>
