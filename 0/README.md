@@ -1,3 +1,0 @@
-# project
-
-my first project
