@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Task</title>
+    
+    </head>
+<body>
+
+    <script>
+
+let calculator = {
+    
+    read() {
+        let a;
+        let b;
+        while (isNaN(a) || a === '' || a === null){
+            a = prompt ('Введите число a','');
+        if (isNaN(a)) {
+            alert('Вы ввели не число!'); continue;
+        } 
+        if (a === '' || a === null) {
+            alert('Введите число!'); continue;
+        }
+        a = Number(a);
+        }
+        while (isNaN(b) || b === '' || b === null){
+            b = prompt ('Введите число b',''); 
+        if (isNaN(b)) {
+            alert('Вы ввели не число!'); continue;
+        } 
+        if (b === '' || b === null) {
+            alert('Введите число!'); continue;
+        } 
+        b = Number(b);
+        }
+        
+        return calculator.a = a, calculator.b = b;
+    },
+
+    sum() {
+        return sum = calculator.a + calculator.b;
+
+    },
+
+    mul() {
+        return mul = calculator.a * calculator.b;
+
+    }
+
+}
+
+calculator.read();
+alert( calculator.sum() );
+alert( calculator.mul() );
+    
+    </script>
+
+</body>
+</html>
