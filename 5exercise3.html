@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Task</title>
+    
+    </head>
+<body>
+
+    <script>
+let accumulator = new Accumulator(1); // начальное значение 1
+function Accumulator(startingValue) {
+    let value;
+  this.value = startingValue,
+  this.read = function(){
+      let inPut;
+      while (isNaN(inPut) || inPut === '' || inPut === null){
+            inPut = prompt ('Введите число','');
+        if (isNaN(inPut)) {
+            alert('Вы ввели не число!'); continue;
+        } 
+        if (inPut === '' || inPut === null) {
+            alert('Введите число!'); continue;
+        }
+        inPut = Number(inPut);
+        } return this.value += inPut;
+  }
+}
+
+accumulator.read(); // прибавляет введённое пользователем значение к текущему значению
+accumulator.read(); // прибавляет введённое пользователем значение к текущему значению
+
+alert(accumulator.value); // выведет сумму этих значений
+    </script>
+
+</body>
+</html>
