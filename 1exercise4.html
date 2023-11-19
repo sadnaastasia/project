@@ -1,32 +1,32 @@
 <!DOCTYPE html>
 <html>
 
-    <head>
-        <title>Task</title>
-    
-    </head>
+<head>
+    <title>Task</title>
+
+</head>
+
 <body>
 
     <script>
-function countSum(salaries) {
-    sum = 0;
-    for (let key in salaries) {
-        
-        if (salaries[key] === undefined) {
-            sum;
-        } else {
-        sum += Number( salaries[key] );
-    }}
-    alert(sum);
-}
-let salaries = {
-John: 100,
-Ann: 160,
-Pete: 130
-};
-countSum(salaries);
+        function countSum(obj) {
+            let sum = 0;
+            for (let key in obj) {
+                sum += obj[key];
+            }
+            return sum;
+        }
+        let salaries = {
+            John: 100,
+            Ann: 160,
+            Pete: 130
+        };
+        let salaries1 = {};
+        alert(countSum(salaries));
+        alert(countSum(salaries1));
 
     </script>
 
 </body>
+
 </html>
