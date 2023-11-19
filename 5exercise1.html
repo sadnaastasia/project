@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Task</title>
+
+</head>
+
+<body>
+
+    <script>
+        let user = {};
+        function A() {
+            return user;
+        }
+        function B() {
+            return user;
+        }
+
+        let a = new A();
+        let b = new B();
+
+        alert(a == b); // true
+    </script>
+
+</body>
+
+</html>
