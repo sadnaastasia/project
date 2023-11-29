@@ -4,7 +4,7 @@ let masha = { name: "Маша", age: 28 };
 
 let users = [vasya, petya, masha];
 let result = [];
-function transformator(user) {
+function transformator() {
     for (let i = 0; i < users.length; i++) {
         result[i] = users[i].name;
     }
