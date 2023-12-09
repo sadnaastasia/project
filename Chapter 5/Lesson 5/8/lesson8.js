@@ -4,27 +4,23 @@ let masha = { name: "Маша", surname: "Петрова", id: 3 };
 
 let users = [vasya, petya, masha];
 
-// let result = [];
-// function transformator() {
-//   for (let i = 0; i < users.length; i++) {
-//     for (let key in users[i]) {
-//       result[i] = {};
-//       result[i].fullName = users[i].name + ' ' + users[i].surname;
-//       result[i].id = users[i].id;
-//       // delete users[i].name;
-//       // delete users[i].surname;
-//     }
-//   }
-//   return result
-// }
 
-// transformator();
-// let usersMapped = result;
+function transformArrayList(arr) {
+  let result = [];
+  for (let i = 0; i < arr.length; i++) {
+    result[i] = {};
+    result[i].fullName = arr[i].name + ' ' + arr[i].surname;
+    result[i].id = arr[i].id;
+  }
+  return result;
+}
 
-let usersMapped = users.map(user => ({
-  fullName: `${user.name} ${user.surname}`,
-  id: user.id
-}));
+transformArrayList(users);
+
+// let usersMapped = users.map(user => ({
+//   fullName: `${user.name} ${user.surname}`,
+//   id: user.id
+// }));
 
 /*
 usersMapped = [

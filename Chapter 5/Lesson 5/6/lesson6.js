@@ -9,7 +9,7 @@
 //     }
 // }
 function Calculator() {
-    let op;
+    
     this.methods = {
         '+': (a, b) => a + b,
         '-': (a, b) => a - b,
@@ -17,9 +17,9 @@ function Calculator() {
     
     this.calculate = function (str) {
         arr = str.split(' ');
-        a = +arr[0];
-        op = arr[1];
-        b = +arr[2];
+        let a = +arr[0];
+        let op = arr[1];
+        let b = +arr[2];
         if (!this.methods[op] || isNaN(a) || isNaN(b)) {
             return NaN;
         }

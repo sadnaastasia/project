@@ -1,10 +1,10 @@
 function readNumber() {
     let numberStr;
     while (isNaN(numberStr)) {
-        numberStr = prompt('Введите число','0');
-        if (numberStr === '' || numberStr === null){
-            return null; break;
-        }
+        numberStr = prompt('Введите число');
+    }
+    if (numberStr === '' || numberStr === null) {
+        return null;
     }
     return numberStr;
 }

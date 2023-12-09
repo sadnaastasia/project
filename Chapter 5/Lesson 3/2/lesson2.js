@@ -1,9 +1,8 @@
 function checkSpam(str) {
-  for (let letter of str) {
-    if ((str.toUpperCase().includes('XXX')) || (str.toLowerCase().includes('viagra'))) {
-      return true;
-    } return false;
+  if ((str.toUpperCase().includes('XXX')) || (str.toLowerCase().includes('viagra'))) {
+    return true;
   }
+  return false;
 }
 
 alert(checkSpam('buy ViAgRA now'))  //== true

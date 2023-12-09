@@ -1,8 +1,6 @@
 function copySorted(arr) {
     let arrSorted = [];
-    for (let i = 0; i < arr.length; i++) {
-        arrSorted[i] = arr[i];
-    }
+    arrSorted = arr.slice();
     arrSorted.sort((a, b) => a.localeCompare(b));
     return arrSorted;
 

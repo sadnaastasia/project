@@ -2,13 +2,17 @@ function sumInput() {
   let inputArray = [];
   while (true) {
     let input = prompt('Введите число');
-    if (input === '' || input === null || isNaN(input)) {
-      let sumInput = 0;
-      for (let key = 0; key < inputArray.length; key++) {
-        sumInput += Number(inputArray[key]);
-      } return sumInput;
-    } inputArray.push(input);
+
+    if (input === '' || input === null || isNaN(input)) break;
+
+    inputArray.push(+input);
   }
+  let sumInput = 0;
+
+  for (let input of inputArray) {
+    sumInput += input;
+  }
+  return sumInput;
 }
 
 alert(sumInput());

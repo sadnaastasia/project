@@ -3,16 +3,16 @@ let petya = { name: "Петя", age: 30 };
 let masha = { name: "Маша", age: 28 };
 
 let users = [vasya, petya, masha];
-// let result = [];
-// function transformator() {
-//     for (let i = 0; i < users.length; i++) {
-//         result[i] = users[i].name;
-//     }
-//     return result;
-// }
-// transformator();
+function transformArrayListToNames(arr) {
+    result = [];
+    for (let i = 0; i < arr.length; i++) {
+        result[i] = arr[i].name;
+    }
+    return result;
+}
 
-// let names = result;
-let names = users.map(item => item.name);
+alert(transformArrayListToNames(users));
 
-alert(names); // Вася, Петя, Маша
+// let names = users.map(item => item.name);
+
+// alert(names); // Вася, Петя, Маша
