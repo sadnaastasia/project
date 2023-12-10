@@ -79,12 +79,14 @@ const posts = [
   },
 ];
 let maxLikes = 0;
-let mostPopularPost = posts.reduce((obj, post) => findMostPopularPost(obj, post), {});
-function findMostPopularPost(obj, post) {
-    let likes = post.numberOfLikes;
-    maxLikes = Math.max(likes, maxLikes);
-    if (maxLikes > likes) return obj;
-    obj = post;
+let mostPopularComment = posts.reduce((obj, post) => findMostPopularComment(obj, post), {});
+function findMostPopularComment(obj, post) {
+    for (let i = 0; i < post.comments.length; i++) {
+        let likes = post.comments[i].numberOfLikes;
+        maxLikes = Math.max(likes, maxLikes);
+        if (maxLikes > likes) continue;
+        obj = post.comments[i];
+    }
     return obj;
 }
 
