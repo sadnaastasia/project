@@ -4,7 +4,7 @@ let masha = { name: "Маша", age: 28 };
 
 let users = [vasya, petya, masha];
 function transformArrayListToNames(arr) {
-    result = [];
+    let result = [];
     for (let i = 0; i < arr.length; i++) {
         result[i] = arr[i].name;
     }

@@ -7,12 +7,7 @@ function sumInput() {
 
     inputArray.push(+input);
   }
-  let sumInput = 0;
-
-  for (let input of inputArray) {
-    sumInput += input;
-  }
-  return sumInput;
+  return inputArray.reduce((sumInput, input) => sumInput + input, 0);
 }
 
 alert(sumInput());

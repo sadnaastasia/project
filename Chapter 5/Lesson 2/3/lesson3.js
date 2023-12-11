@@ -6,6 +6,6 @@ function readNumber() {
     if (numberStr === '' || numberStr === null) {
         return null;
     }
-    return numberStr;
+    return +numberStr;
 }
 alert(readNumber()); 
