@@ -126,3 +126,48 @@ const posts = [
 // function sortComments(a, b) {
 //     return b.numberOfLikes - a.numberOfLikes;
 // }
+
+// let athorsOfComments = posts.reduce((author, post) => findAuthorsOfComments(author, post), []);
+// function findAuthorsOfComments(author, post) {
+//     for (let i = 0; i < post.comments.length; i++) {
+//         author.push(post.comments[i].author.id);
+//     }
+//     return author;
+// }
+
+// function findRepeatedAuthor(author) {
+//     for (let i = 0; i < author.length - 1; i++) {
+//         for (let j = 1; j < author.length; j++) {
+//             if (author[j] == author[i]) return author[j];
+//         }
+//     }
+// }
+
+// findRepeatedAuthor(athorsOfComments);
+
+
+function groupById(arr) {
+    return arr.reduce((obj, value) => {
+        obj[value.id] = value;
+        for (let i = 0; i < value.comments.length; i++) {
+            obj[value.comments[i].id] = value.comments[i];
+        }
+        for (let i = 0; i < value.comments.length; i++) {
+            obj[value.comments[i].author.id] = value.comments[i].author;
+        }
+        obj[value.author.id] = value.author;
+        return obj;
+    }, {})
+}
+
+let postsById = groupById(posts);
+
+
+
+
+
+
+
+
+
+
