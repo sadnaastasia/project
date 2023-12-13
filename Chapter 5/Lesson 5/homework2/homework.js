@@ -146,21 +146,75 @@ const posts = [
 // findRepeatedAuthor(athorsOfComments);
 
 
-function groupById(arr) {
-    return arr.reduce((obj, value) => {
-        obj[value.id] = value;
+function normalizeState(arr) {
+    function groupById(arr) {
+        return arr.reduce((arr, value) => {
+            arr[value.id] = value;
+            return arr;
+        }, {})
+    }
+
+    let posts = arr.reduce((posts, value) => {
+        posts.push(value);
+        return posts;
+    }, []);
+
+    posts = groupById(posts);
+
+    arr.posts = {};
+    arr.posts.byId = posts;
+    arr.posts.allIds = arr.reduce((arr, post) => {
+        arr.push(post.id);
+        return arr;
+    }, []);
+
+    let comments = arr.reduce((comments, value) => {
         for (let i = 0; i < value.comments.length; i++) {
-            obj[value.comments[i].id] = value.comments[i];
+            comments.push(value.comments[i]);
         }
+        return comments;
+    }, []);
+
+    comments = groupById(comments)
+
+    arr.comments = {};
+    arr.comments.byId = comments;
+    arr.comments.allIds = arr.reduce((arr, post) => {
+        for (let i = 0; i < post.comments.length; i++) {
+            arr.push(post.comments[i].id);
+        }
+        return arr;
+    }, []);
+
+    let users = arr.reduce((authors, value) => {
+        authors.push(value.author);
         for (let i = 0; i < value.comments.length; i++) {
-            obj[value.comments[i].author.id] = value.comments[i].author;
+            authors.push(value.comments[i].author);
         }
-        obj[value.author.id] = value.author;
-        return obj;
-    }, {})
+        return authors;
+    }, [])
+
+    users = groupById(users);
+
+    arr.users = {};
+    arr.users.byId = users;
+    arr.users.allIds = arr.reduce((arr, post) => {
+        arr.push(post.author.id);
+        for (let i = 0; i < post.comments.length; i++) {
+            arr.push(post.comments[i].author.id);
+        }
+        return arr;
+    }, []);
+
+    let arr2 = {};
+    arr2.posts = arr.posts;
+    arr2.comments = arr.comments;
+    arr2.users = arr.users;
+
+    return arr2;
 }
 
-let postsById = groupById(posts);
+let normalizedState = normalizeState(posts);
 
 
 
