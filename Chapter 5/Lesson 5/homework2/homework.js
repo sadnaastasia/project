@@ -198,14 +198,22 @@ function normalizeState(arr) {
 
     arr.users = {};
     arr.users.byId = users;
-    arr.users.allIds = arr.reduce((arr, post) => {
-        arr.push(post.author.id);
-        for (let i = 0; i < post.comments.length; i++) {
-            arr.push(post.comments[i].author.id);
+    arr.users.allIds = groupUsers(arr);
+    function groupUsers(arr) {
+        arrGrouped = arr.reduce((arr, post) => {
+            arr.push(post.author.id);
+            for (let i = 0; i < post.comments.length; i++) {
+                arr.push(post.comments[i].author.id);
+            }
+            return arr;
+        }, []);
+        for (let i = 0; i < arrGrouped.length - 1; i++) {
+            for (let j = i+1; j < arrGrouped.length; j++) {
+                if (arrGrouped[j] == arrGrouped[i]) arrGrouped.splice(j, 1);
+            }
         }
-        return arr;
-    }, []);
-
+        return arrGrouped;
+    }
     let arr2 = {};
     arr2.posts = arr.posts;
     arr2.comments = arr.comments;
