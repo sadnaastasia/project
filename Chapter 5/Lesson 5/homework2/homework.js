@@ -79,150 +79,163 @@ const posts = [
   },
 ];
 
-// let onlyBody = posts.map (post => post.body);
 
-// let postFiltered = posts.filter(post => post.numberOfLikes >= 2);
-
-// let postFilteredByComments = posts.filter(post => filterByComments (post));
-
-// function filterByComments (arr) {
-//     for (let i = 0; i < arr.comments.length; i++) {
-//         if (arr.comments[i].numberOfLikes < 20) return false;
-//     } return arr;
+// function showOnlyBody(posts) {
+//     let onlyBody = posts.map(post => post.body);
+//     return onlyBody;
 // }
+// showOnlyBody (posts);
 
-// let totalSumOfLikesUnderAllPosts = posts.reduce((sum, post) => sum + post.numberOfLikes, 0);
 
-// let maxLikes = 0;
-// let mostPopularPost = posts.reduce((obj, post) => findMostPopularPost(obj, post), {});
-// function findMostPopularPost(obj, post) {
-//     let likes = post.numberOfLikes;
-//     maxLikes = Math.max(likes, maxLikes);
-//     if (maxLikes > likes) return obj;
-//     obj = post;
-//     return obj;
+// function filterPosts(posts) {
+//     let postFiltered = posts.filter(post => post.comments.length >= 2);
+//     return postFiltered;
 // }
+// filterPosts(posts);
 
-// let maxLikes = 0;
-// let mostPopularComment = posts.reduce((obj, post) => findMostPopularComment(obj, post), {});
-// function findMostPopularComment(obj, post) {
-//     for (let i = 0; i < post.comments.length; i++) {
-//         let likes = post.comments[i].numberOfLikes;
-//         maxLikes = Math.max(likes, maxLikes);
-//         if (maxLikes > likes) continue;
-//         obj = post.comments[i];
-//     }
-//     return obj;
-// }
 
-// let comments = posts.reduce((obj, post) => mapComments(obj, post), []);
-// function mapComments(obj, post) {
-//     for (let i = 0; i < post.comments.length; i++) {
-//         obj.push(post.comments[i])
-//     }
-//     return obj;
+// function filterByComments(posts) {
+//     let postFilteredByComments = posts.filter((post) => {
+//         for (let i = 0; i < post.comments.length; i++) {
+//             if (post.comments[i].numberOfLikes < 20) return false;
+//         } return post;
+//     });
+//     return postFilteredByComments;
 // }
-// comments.sort(sortComments);
-// function sortComments(a, b) {
-//     return b.numberOfLikes - a.numberOfLikes;
-// }
+// filterByComments(posts);
 
-// let athorsOfComments = posts.reduce((author, post) => findAuthorsOfComments(author, post), []);
-// function findAuthorsOfComments(author, post) {
-//     for (let i = 0; i < post.comments.length; i++) {
-//         author.push(post.comments[i].author.id);
-//     }
-//     return author;
-// }
 
-// function findRepeatedAuthor(author) {
-//     for (let i = 0; i < author.length - 1; i++) {
-//         for (let j = 1; j < author.length; j++) {
-//             if (author[j] == author[i]) return author[j];
+// function calculateTheTotalSumOfLikesUnderAllPosts(posts) {
+//     let totalSumOfLikesUnderAllPosts = posts.reduce((sum, post) => sum + post.numberOfLikes, 0);
+//     return totalSumOfLikesUnderAllPosts;
+// }
+// calculateTheTotalSumOfLikesUnderAllPosts(posts);
+
+
+// function findMostPopularPost(posts) {
+//     if (!posts || posts.length < 1) return null;
+//     posts.reduce((mostPopularPost, post) => {
+//         return mostPopularPost.numberOfLikes > post.numberOfLikes ?
+//         mostPopularPost :
+//         post;
+//     });
+// }
+// findMostPopularPost(posts);
+
+
+// function findmostPopularComment(posts) {
+//     let maxLikes = 0;
+//     posts.reduce((mostPopularComment, post) => {
+//         for (let i = 0; i < post.comments.length; i++) {
+//             let likes = post.comments[i].numberOfLikes;
+//             maxLikes = Math.max(likes, maxLikes);
+//             if (maxLikes > likes) continue;
+//             mostPopularComment = post.comments[i];
+//         }
+//         return mostPopularComment;
+//     }, {});
+// }
+// findmostPopularComment(posts);
+
+
+// function getCommentsAndSort(posts) {
+//     let comments = posts.reduce((comments, post) => {
+//         for (let i = 0; i < post.comments.length; i++) {
+//             comments.push(post.comments[i])
+//         }
+//         return comments;
+//     }, []);
+//     comments.sort((a, b) => {
+//         return b.numberOfLikes - a.numberOfLikes;
+//     });
+// }
+// getCommentsAndSort(posts);
+
+
+// function findTheAuthorOfTheMostComments(posts) {
+//     let athorsOfComments = posts.reduce((author, post) => {
+//         for (let i = 0; i < post.comments.length; i++) {
+//             author.push(post.comments[i].author.id);
+//         }
+//         return author;
+//     }, []);
+//     for (let i = 0; i < athorsOfComments.length - 1; i++) {
+//         for (let j = 1; j < athorsOfComments.length; j++) {
+//             if (athorsOfComments[j] == athorsOfComments[i]) return athorsOfComments[j];
 //         }
 //     }
 // }
+// findTheAuthorOfTheMostComments(posts);
 
-// findRepeatedAuthor(athorsOfComments);
 
+function normalizeState(posts) {
+    return posts.reduce((normalizedState, post) => {
+        return {
+            posts: {
+                byId: {
+                    ...normalizedState.posts.byId,
+                    [post.id]: {
+                        ...post,
+                        author: post.author.id,
+                        comments: post.comments.map(comment => comment.id),
+                    }
+                },
+                allIds: [...normalizedState.posts.allIds, post.id],
+            },
 
-function normalizeState(arr) {
-    function groupById(arr) {
-        return arr.reduce((arr, value) => {
-            arr[value.id] = value;
-            return arr;
-        }, {})
-    }
+            comments: {
+                byId: {
+                    ...normalizedState.comments.byId,
+                    ...post.comments.reduce((commentsById, comment) => {
+                        return {
+                            ...commentsById,
+                            [comment.id]: {
+                                ...comment,
+                                author: comment.author.id,
+                            }
+                        }
+                    }, {})
 
-    let posts = arr.reduce((posts, value) => {
-        posts.push(value);
-        return posts;
-    }, []);
+                },
+                allIds: [...normalizedState.comments.allIds, post.comments.map(comment => comment.id)],
+            },
 
-    posts = groupById(posts);
+            users: {
+                byId: {
+                    ...normalizedState.users.byId,
+                    [post.author.id]: post.author,
+                    ...post.comments.reduce((commentAuthorById, comment) => {
+                        return {
+                            ...commentAuthorById,
+                            [comment.author.id]: comment.author,
+                        }
 
-    arr.posts = {};
-    arr.posts.byId = posts;
-    arr.posts.allIds = arr.reduce((arr, post) => {
-        arr.push(post.id);
-        return arr;
-    }, []);
-
-    let comments = arr.reduce((comments, value) => {
-        for (let i = 0; i < value.comments.length; i++) {
-            comments.push(value.comments[i]);
-        }
-        return comments;
-    }, []);
-
-    comments = groupById(comments)
-
-    arr.comments = {};
-    arr.comments.byId = comments;
-    arr.comments.allIds = arr.reduce((arr, post) => {
-        for (let i = 0; i < post.comments.length; i++) {
-            arr.push(post.comments[i].id);
-        }
-        return arr;
-    }, []);
-
-    let users = arr.reduce((authors, value) => {
-        authors.push(value.author);
-        for (let i = 0; i < value.comments.length; i++) {
-            authors.push(value.comments[i].author);
-        }
-        return authors;
-    }, [])
-
-    users = groupById(users);
-
-    arr.users = {};
-    arr.users.byId = users;
-    arr.users.allIds = groupUsers(arr);
-    function groupUsers(arr) {
-        arrGrouped = arr.reduce((arr, post) => {
-            arr.push(post.author.id);
-            for (let i = 0; i < post.comments.length; i++) {
-                arr.push(post.comments[i].author.id);
-            }
-            return arr;
-        }, []);
-        for (let i = 0; i < arrGrouped.length - 1; i++) {
-            for (let j = i+1; j < arrGrouped.length; j++) {
-                if (arrGrouped[j] == arrGrouped[i]) arrGrouped.splice(j, 1);
+                    }, {}),
+                },
+                allIds: Array.from(new Set([
+                    ...normalizedState.users.allIds,
+                    post.author.id,
+                    ...post.comments.map(comment => comment.author.id)
+                ])),
             }
         }
-        return arrGrouped;
-    }
-    let arr2 = {};
-    arr2.posts = arr.posts;
-    arr2.comments = arr.comments;
-    arr2.users = arr.users;
-
-    return arr2;
+    }, {
+        posts: {
+            byId: {},
+            allIds: [],
+        },
+        comments: {
+            byId: {},
+            allIds: [],
+        },
+        users: {
+            byId: {},
+            allIds: [],
+        }
+    })
 }
 
-let normalizedState = normalizeState(posts);
+console.log(normalizeState(posts));
 
 
 
