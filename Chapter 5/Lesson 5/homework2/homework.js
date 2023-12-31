@@ -80,92 +80,91 @@ const posts = [
 ];
 
 
-// function showOnlyBody(posts) {
-//     let onlyBody = posts.map(post => post.body);
-//     return onlyBody;
-// }
-// showOnlyBody (posts);
+function getPostBodies(posts) {
+    let onlyBody = posts.map(post => post.body);
+    return onlyBody;
+}
+console.log(getPostBodies (posts));
 
 
-// function filterPosts(posts) {
-//     let postFiltered = posts.filter(post => post.comments.length >= 2);
-//     return postFiltered;
-// }
-// filterPosts(posts);
+function filterPostsByCommentsLength(posts, minNumberOfComments) {
+    return posts.filter(post => post.comments.length >= minNumberOfComments);
+}
+
+console.log(filterPostsByCommentsLength(posts, 2));
 
 
-// function filterByComments(posts) {
-//     let postFilteredByComments = posts.filter((post) => {
-//         for (let i = 0; i < post.comments.length; i++) {
-//             if (post.comments[i].numberOfLikes < 20) return false;
-//         } return post;
-//     });
-//     return postFilteredByComments;
-// }
-// filterByComments(posts);
+function filterPostsByNumberOfLikesInComments(posts, minNumberOfLikes) {
+    let postFilteredByComments = posts.filter((post) => {
+        if (post.comments.every((comments) => comments.numberOfLikes >= minNumberOfLikes)) return post;
+    });
+    return postFilteredByComments;
+}
+console.log(filterPostsByNumberOfLikesInComments(posts, 20));
 
 
-// function calculateTheTotalSumOfLikesUnderAllPosts(posts) {
-//     let totalSumOfLikesUnderAllPosts = posts.reduce((sum, post) => sum + post.numberOfLikes, 0);
-//     return totalSumOfLikesUnderAllPosts;
-// }
-// calculateTheTotalSumOfLikesUnderAllPosts(posts);
+function calculateTotalNumberOfLikesUnderAllPosts(posts) {
+    let totalSumOfLikesUnderAllPosts = posts.reduce((sum, post) => sum + post.numberOfLikes, 0);
+    return totalSumOfLikesUnderAllPosts;
+}
+console.log(calculateTotalNumberOfLikesUnderAllPosts(posts));
 
 
-// function findMostPopularPost(posts) {
-//     if (!posts || posts.length < 1) return null;
-//     posts.reduce((mostPopularPost, post) => {
-//         return mostPopularPost.numberOfLikes > post.numberOfLikes ?
-//         mostPopularPost :
-//         post;
-//     });
-// }
-// findMostPopularPost(posts);
+function getListOfComments(posts) {
+    return posts.reduce((listOfComments, post) => {
+        return listOfComments.concat(post.comments);
+    }, [])
+}
+
+function findMostPopularEntity(elems) {
+    return elems.reduce((mostPopularElem, elem) => {
+        return mostPopularElem.numberOfLikes > elem.numberOfLikes
+            ? mostPopularElem
+            : elem;
+    });
+}
 
 
-// function findmostPopularComment(posts) {
-//     let maxLikes = 0;
-//     posts.reduce((mostPopularComment, post) => {
-//         for (let i = 0; i < post.comments.length; i++) {
-//             let likes = post.comments[i].numberOfLikes;
-//             maxLikes = Math.max(likes, maxLikes);
-//             if (maxLikes > likes) continue;
-//             mostPopularComment = post.comments[i];
-//         }
-//         return mostPopularComment;
-//     }, {});
-// }
-// findmostPopularComment(posts);
+function findMostPopularPost(posts) {
+    if (!posts || posts.length < 1) return null;
+    let mostPopularPost = findMostPopularEntity(posts);
+    return mostPopularPost;
+}
+console.log(findMostPopularPost(posts));
 
 
-// function getCommentsAndSort(posts) {
-//     let comments = posts.reduce((comments, post) => {
-//         for (let i = 0; i < post.comments.length; i++) {
-//             comments.push(post.comments[i])
-//         }
-//         return comments;
-//     }, []);
-//     comments.sort((a, b) => {
-//         return b.numberOfLikes - a.numberOfLikes;
-//     });
-// }
-// getCommentsAndSort(posts);
+function findMostPopularComment(posts) {
+    let comments = getListOfComments(posts);
+    let mostPopularComment = findMostPopularEntity(comments);
+    return mostPopularComment;
+}
+console.log(findMostPopularComment(posts));
 
 
-// function findTheAuthorOfTheMostComments(posts) {
-//     let athorsOfComments = posts.reduce((author, post) => {
-//         for (let i = 0; i < post.comments.length; i++) {
-//             author.push(post.comments[i].author.id);
-//         }
-//         return author;
-//     }, []);
-//     for (let i = 0; i < athorsOfComments.length - 1; i++) {
-//         for (let j = 1; j < athorsOfComments.length; j++) {
-//             if (athorsOfComments[j] == athorsOfComments[i]) return athorsOfComments[j];
-//         }
-//     }
-// }
-// findTheAuthorOfTheMostComments(posts);
+function getCommentsAndSort(posts) {
+    let comments = getListOfComments(posts);
+    comments.sort((a, b) => {
+        if (a.numberOfLikes == b.numberOfLikes) return a.text.localeCompare(b.text)
+        return b.numberOfLikes - a.numberOfLikes;
+    });
+}
+console.log(getCommentsAndSort(posts));
+
+
+function findTheAuthorOfTheMostComments(posts) {
+    let athorsOfComments = posts.reduce((author, post) => {
+        for (let i = 0; i < post.comments.length; i++) {
+            author.push(post.comments[i].author.id);
+        }
+        return author;
+    }, []);
+    for (let i = 0; i < athorsOfComments.length - 1; i++) {
+        for (let j = 1; j < athorsOfComments.length; j++) {
+            if (athorsOfComments[j] == athorsOfComments[i]) return athorsOfComments[j];
+        }
+    }
+}
+console.log(findTheAuthorOfTheMostComments(posts));
 
 
 function normalizeState(posts) {
