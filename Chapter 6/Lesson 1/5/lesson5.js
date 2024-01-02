@@ -25,21 +25,21 @@ let list = {
 //   }
 // }
 
-// function printReverseList(list) {
-//   let arr = [];
-//   function getArrayOfValues(list) {
-//     if (list === null) {
-//       return arr;
-//     } else {
-//       arr.push(list.value);
-//       list = list.next;
-//       getArrayOfValues(list);
-//     }
-//   }
-//   getArrayOfValues(list);
-//   for (let i = arr.length - 1; i >= 0; i--) {
-//     console.log(arr[i]);
-//   }
-// }
+function printReverseList(list) {
+  let arr = [];
+  function getArrayOfValues(list) {
+    if (list === null) {
+      return arr;
+    } else {
+      arr.push(list.value);
+      list = list.next;
+      getArrayOfValues(list);
+    }
+  }
+  getArrayOfValues(list);
+  for (let i = arr.length - 1; i >= 0; i--) {
+    console.log(arr[i]);
+  }
+}
 
 printReverseList(list);
