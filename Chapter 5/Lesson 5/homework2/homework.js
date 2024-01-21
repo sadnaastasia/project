@@ -95,9 +95,7 @@ console.log(filterPostsByCommentsLength(posts, 2));
 
 
 function filterPostsByNumberOfLikesInComments(posts, minNumberOfLikes) {
-    let postFilteredByComments = posts.filter((post) => {
-        if (post.comments.every((comments) => comments.numberOfLikes >= minNumberOfLikes)) return post;
-    });
+    let postFilteredByComments = posts.filter(post => post.comments.every(comments => comments.numberOfLikes >= minNumberOfLikes));
     return postFilteredByComments;
 }
 console.log(filterPostsByNumberOfLikesInComments(posts, 20));
@@ -141,14 +139,14 @@ function findMostPopularComment(posts) {
 console.log(findMostPopularComment(posts));
 
 
-function getCommentsAndSort(posts) {
+function getSortedListOfComments(posts) {
     let comments = getListOfComments(posts);
     comments.sort((a, b) => {
         if (a.numberOfLikes == b.numberOfLikes) return a.text.localeCompare(b.text)
         return b.numberOfLikes - a.numberOfLikes;
     });
 }
-console.log(getCommentsAndSort(posts));
+console.log(getSortedListOfComments(posts));
 
 
 function findTheAuthorOfTheMostComments(posts) {
