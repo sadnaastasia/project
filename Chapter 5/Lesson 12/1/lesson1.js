@@ -4,4 +4,4 @@ let user = {
   };
 
 let json = JSON.stringify(user);
-let userJson = JSON.parse(json);
+let userNew = JSON.parse(json);
