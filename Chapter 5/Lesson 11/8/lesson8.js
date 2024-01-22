@@ -1,11 +1,28 @@
 function formatDate(date) {
   let difference = new Date() - date;
-  let result;
-  difference < 1000 ? result = 'прямо сейчас' :
-  difference < 60 * 1000 ? result = `${difference / 1000} сек. назад` :
-  difference < 60 * 60 * 1000 ? result = `${difference / (1000 * 60)} мин. назад` :
-  result = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()} ${date.getHours()} : ${date.getMinutes()}`;
-  return result;
+  
+  if (difference < 1000) {
+    return 'прямо сейчас';
+  } 
+  
+  let sec = Math.floor(difference / 1000); 
+  if (sec < 60) {
+    return sec + ' сек. назад';
+  }
+
+  let min = Math.floor(difference / 60000); 
+  if (min < 60) {
+    return min + ' мин. назад';
+  }
+
+  let dateFormated = [
+    '0' + date.getDate(),
+    '0' + (date.getMonth() + 1),
+    '' + date.getFullYear(),
+    '0' + date.getHours(),
+    '0' + date.getMinutes()
+  ].map(component => component.slice(-2));
+  return dateFormated.slice(0,3).join('.') + ', ' + dateFormated.slice(3).join(':');
 }
 
 alert(formatDate(new Date(new Date - 1))); // "прямо сейчас"
