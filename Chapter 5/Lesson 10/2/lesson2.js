@@ -5,15 +5,18 @@ let salaries = {
 };
 
 function topSalary(salaries) {
-  if (Object.keys(salaries).length === 0)
-    return null;
-  let arrayOfPersonsAndSalaries = Object.entries(salaries);
-  let result = arrayOfPersonsAndSalaries.reduce((arrayOfPersonWithMaxSalaryAndHisSalary, salary) => {
-    if (arrayOfPersonWithMaxSalaryAndHisSalary[1] < salary[1]) {
-      return [arrayOfPersonWithMaxSalaryAndHisSalary] = salary;
-    } return arrayOfPersonWithMaxSalaryAndHisSalary;
-  }, [0, 0])
-  return result[0];
+
+  let max = 0;
+  let maxName = null;
+
+  for(let [name, salary] of Object.entries(salaries)) {
+    if (max < salary) {
+      max = salary;
+      maxName = name;
+    }
+  }
+
+  return maxName;
 }
 
 topSalary(salaries);
