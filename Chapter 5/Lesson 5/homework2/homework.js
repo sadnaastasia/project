@@ -151,15 +151,15 @@ console.log(getSortedListOfComments(posts));
 
 
 function findAuthorOfMostComments(posts) {
-    let athorsOfComments = posts.reduce((author, post) => {
+    let authorsOfComments = posts.reduce((author, post) => {
         for (let i = 0; i < post.comments.length; i++) {
             author.push(post.comments[i].author.id);
         }
         return author;
     }, []);
-    for (let i = 0; i < athorsOfComments.length - 1; i++) {
-        for (let j = 1; j < athorsOfComments.length; j++) {
-            if (athorsOfComments[j] == athorsOfComments[i]) return athorsOfComments[j];
+    for (let i = 0; i < authorsOfComments.length - 1; i++) {
+        for (let j = 1; j < authorsOfComments.length; j++) {
+            if (authorsOfComments[j] == authorsOfComments[i]) return authorsOfComments[j];
         }
     }
 }
