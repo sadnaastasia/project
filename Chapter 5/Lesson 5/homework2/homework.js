@@ -80,88 +80,106 @@ const posts = [
 ];
 
 
-function getPostBodies(posts) {
-    let onlyBody = posts.map(post => post.body);
-    return onlyBody;
+// function getPostBodies(posts) {
+//     let onlyBody = posts.map(post => post.body);
+//     return onlyBody;
+// }
+// console.log(getPostBodies (posts));
+
+
+// function filterPostsByCommentsLength(posts, minNumberOfComments) {
+//     return posts.filter(post => post.comments.length >= minNumberOfComments);
+// }
+
+// console.log(filterPostsByCommentsLength(posts, 2));
+
+
+// function filterPostsByNumberOfLikesInComments(posts, minNumberOfLikes) {
+//     let postFilteredByComments = posts.filter(post => post.comments.every(comments => comments.numberOfLikes >= minNumberOfLikes));
+//     return postFilteredByComments;
+// }
+// console.log(filterPostsByNumberOfLikesInComments(posts, 20));
+
+
+// function calculateTotalNumberOfLikesUnderAllPosts(posts) {
+//     let totalSumOfLikesUnderAllPosts = posts.reduce((sum, post) => sum + post.numberOfLikes, 0);
+//     return totalSumOfLikesUnderAllPosts;
+// }
+// console.log(calculateTotalNumberOfLikesUnderAllPosts(posts));
+
+
+// function getListOfComments(posts) {
+//     return posts.reduce((listOfComments, post) => {
+//         return listOfComments.concat(post.comments);
+//     }, [])
+// }
+
+// function findMostPopularEntity(elems) {
+//     return elems.reduce((mostPopularElem, elem) => {
+//         return mostPopularElem.numberOfLikes > elem.numberOfLikes
+//             ? mostPopularElem
+//             : elem;
+//     });
+// }
+
+
+// function findMostPopularPost(posts) {
+//     if (!posts || posts.length < 1) return null;
+//     let mostPopularPost = findMostPopularEntity(posts);
+//     return mostPopularPost;
+// }
+// console.log(findMostPopularPost(posts));
+
+
+// function findMostPopularComment(posts) {
+//     let comments = getListOfComments(posts);
+//     let mostPopularComment = findMostPopularEntity(comments);
+//     return mostPopularComment;
+// }
+// console.log(findMostPopularComment(posts));
+
+
+// function getSortedListOfComments(posts) {
+//     let comments = getListOfComments(posts);
+//     comments.sort((a, b) => {
+//         if (a.numberOfLikes == b.numberOfLikes) return a.text.localeCompare(b.text)
+//         return b.numberOfLikes - a.numberOfLikes;
+//     });
+//     return comments;
+// }
+// console.log(getSortedListOfComments(posts));
+
+
+function getArrayOfAuthorsOfComments(posts) {
+    let arrayOfAuthorsOfComments = posts.reduce((authorsArray, post) => {
+        return authorsArray.concat(post.comments.map(comment => comment.author));
+    }, []);
+    return arrayOfAuthorsOfComments;
 }
-console.log(getPostBodies (posts));
 
 
-function filterPostsByCommentsLength(posts, minNumberOfComments) {
-    return posts.filter(post => post.comments.length >= minNumberOfComments);
+function getMapOfAuthorsAndNumberOfComments(posts) {
+    let arrayOfAuthorsOfComments = getArrayOfAuthorsOfComments(posts);
+    let mapOfAuthorsAndNumberOfComments = new Map();
+    for (let i = 0; i < arrayOfAuthorsOfComments.length; i++) {
+        if (mapOfAuthorsAndNumberOfComments.has(arrayOfAuthorsOfComments[i].id)) {
+            mapOfAuthorsAndNumberOfComments.set(arrayOfAuthorsOfComments[i].id, 
+                mapOfAuthorsAndNumberOfComments.get(arrayOfAuthorsOfComments[i].id) + 1);
+        } else {
+            mapOfAuthorsAndNumberOfComments.set(arrayOfAuthorsOfComments[i].id, 1);
+        }
+    }
+    return mapOfAuthorsAndNumberOfComments;
 }
-
-console.log(filterPostsByCommentsLength(posts, 2));
-
-
-function filterPostsByNumberOfLikesInComments(posts, minNumberOfLikes) {
-    let postFilteredByComments = posts.filter(post => post.comments.every(comments => comments.numberOfLikes >= minNumberOfLikes));
-    return postFilteredByComments;
-}
-console.log(filterPostsByNumberOfLikesInComments(posts, 20));
-
-
-function calculateTotalNumberOfLikesUnderAllPosts(posts) {
-    let totalSumOfLikesUnderAllPosts = posts.reduce((sum, post) => sum + post.numberOfLikes, 0);
-    return totalSumOfLikesUnderAllPosts;
-}
-console.log(calculateTotalNumberOfLikesUnderAllPosts(posts));
-
-
-function getListOfComments(posts) {
-    return posts.reduce((listOfComments, post) => {
-        return listOfComments.concat(post.comments);
-    }, [])
-}
-
-function findMostPopularEntity(elems) {
-    return elems.reduce((mostPopularElem, elem) => {
-        return mostPopularElem.numberOfLikes > elem.numberOfLikes
-            ? mostPopularElem
-            : elem;
-    });
-}
-
-
-function findMostPopularPost(posts) {
-    if (!posts || posts.length < 1) return null;
-    let mostPopularPost = findMostPopularEntity(posts);
-    return mostPopularPost;
-}
-console.log(findMostPopularPost(posts));
-
-
-function findMostPopularComment(posts) {
-    let comments = getListOfComments(posts);
-    let mostPopularComment = findMostPopularEntity(comments);
-    return mostPopularComment;
-}
-console.log(findMostPopularComment(posts));
-
-
-function getSortedListOfComments(posts) {
-    let comments = getListOfComments(posts);
-    comments.sort((a, b) => {
-        if (a.numberOfLikes == b.numberOfLikes) return a.text.localeCompare(b.text)
-        return b.numberOfLikes - a.numberOfLikes;
-    });
-    return comments;
-}
-console.log(getSortedListOfComments(posts));
 
 
 function findAuthorOfMostComments(posts) {
-    let authorsOfComments = posts.reduce((author, post) => {
-        for (let i = 0; i < post.comments.length; i++) {
-            author.push(post.comments[i].author.id);
-        }
-        return author;
-    }, []);
-    for (let i = 0; i < authorsOfComments.length - 1; i++) {
-        for (let j = 1; j < authorsOfComments.length; j++) {
-            if (authorsOfComments[j] == authorsOfComments[i]) return authorsOfComments[j];
-        }
+    let mapOfAuthorsAndNumberOfComments = getMapOfAuthorsAndNumberOfComments(posts);
+    let authorOfMostComments = [0, 0];
+    for (let entry of mapOfAuthorsAndNumberOfComments.entries()) {
+        if (authorOfMostComments[1] < entry[1]) authorOfMostComments = entry;
     }
+    return authorOfMostComments[0];
 }
 console.log(findAuthorOfMostComments(posts));
 
