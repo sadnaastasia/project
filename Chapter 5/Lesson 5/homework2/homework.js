@@ -150,7 +150,7 @@ function getSortedListOfComments(posts) {
 console.log(getSortedListOfComments(posts));
 
 
-function findTheAuthorOfTheMostComments(posts) {
+function findAuthorOfMostComments(posts) {
     let athorsOfComments = posts.reduce((author, post) => {
         for (let i = 0; i < post.comments.length; i++) {
             author.push(post.comments[i].author.id);
@@ -163,7 +163,7 @@ function findTheAuthorOfTheMostComments(posts) {
         }
     }
 }
-console.log(findTheAuthorOfTheMostComments(posts));
+console.log(findAuthorOfMostComments(posts));
 
 
 function normalizeState(posts) {
