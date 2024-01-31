@@ -145,6 +145,7 @@ function getSortedListOfComments(posts) {
         if (a.numberOfLikes == b.numberOfLikes) return a.text.localeCompare(b.text)
         return b.numberOfLikes - a.numberOfLikes;
     });
+    return comments;
 }
 console.log(getSortedListOfComments(posts));
 
