@@ -1,11 +1,21 @@
 // function getWeekDay(date) {
-//   let weekDay = (date.getDay() == 0) ? weekday = 'ВС' :
-//   (date.getDay() == 1) ? weekday = 'ПН' :
-//   (date.getDay() == 2) ? weekday = 'ВТ' :
-//   (date.getDay() == 3) ? weekday = 'СР' :
-//   (date.getDay() == 4) ? weekday = 'ЧТ' :
-//   (date.getDay() == 5) ? weekday = 'ПТ' :
-//   weekday = 'СБ' ;
+//   let weekDay;
+//   switch (date.getDay()) {
+//     case 0: weekDay = 'ВС';
+//       break;
+//     case 1: weekDay = 'ПН';
+//       break;
+//     case 2: weekDay = 'ВТ';
+//       break;
+//     case 3: weekDay = 'СР';
+//       break;
+//     case 4: weekDay = 'ЧТ';
+//       break;
+//     case 5: weekDay = 'ПТ';
+//       break;
+//     case 6: weekDay = 'СБ';
+//       break;
+//   }
 //   return weekDay;
 // }
 
