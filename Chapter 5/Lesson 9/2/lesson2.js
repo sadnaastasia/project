@@ -1,9 +1,5 @@
 function count(obj) {
-  let arr = [];
-  for (let key of Object.keys(obj)) {
-    arr.push(key);
-  }
-  return arr.length;
+  return Object.keys(obj).length;
 }
 let user = {
   name: 'John',
