@@ -17,7 +17,7 @@ function throttle(f, ms) {
       return f.call(this, ...arguments);
     } else if (Date.now() - start <= 999) {
       clearTimeout(timeout);
-      timeout = setTimeout(() => f.apply(this, arguments), ms - (Date.now() - start));
+      timeout = setTimeout(() => f.apply(this, arguments), start + ms);
     }
   };
 }
