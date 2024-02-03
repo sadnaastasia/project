@@ -1,19 +1,24 @@
 function f(a) {
-  console.log(a)
+  console.log(a);
 }
 
-function throttle(f, ms) { 
+function throttle(f, ms) {
   let timeout;
   let count = 0;
-    return function () {
-      if (count == 0) {
-        count++;
-        return f.call(this, ...arguments);
-      }
-        clearTimeout(timeout);
-        timeout = setTimeout(() => f.apply(this, arguments), ms);
-        count++;
-    };
+  let start = Date.now();
+  return function () {
+    if (count == 0) {
+      count++;
+      return f.call(this, ...arguments);
+    }
+    if (Date.now() - start >= 1000) {
+      start = Date.now();
+      return f.call(this, ...arguments);
+    } else if (Date.now() - start < 1000) {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => f.apply(this, arguments), ms - (Date.now() - start));
+    }
+  };
 }
 
 // f1000 передаёт вызовы f максимум раз в 1000 мс
