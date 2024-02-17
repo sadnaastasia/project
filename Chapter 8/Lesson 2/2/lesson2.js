@@ -1,6 +1,13 @@
+// function Obj() {
+//     alert('Работает!');
+// }
+// Obj.prototype = {};
+// let obj = new Obj();
+// let obj2 = new obj.constructor();
+
 function Obj() {
-    alert('Работает!');
+    alert('Не работает!');
 }
-Obj.prototype = {};
+User.prototype = {};
 let obj = new Obj();
 let obj2 = new obj.constructor();
