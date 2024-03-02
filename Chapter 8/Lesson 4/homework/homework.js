@@ -209,12 +209,11 @@ let validateAge = composeValidators(
 
 
 function withValidation([f1, f2]) {
-    result = 0;
+    result = [];
     return function () {
-        result = f1.call(this, arguments[0]);
-        if (result == false) return;
-        result = f2.call(this, arguments[1]);
-        if (result == false) return;
+        result[0] = f1.call(this, arguments[0]);
+        result[1] = f2.call(this, arguments[1]);
+        if (result[0] == false || result[1] == false) return;
         console.log("All parameters are valid. The function doesn't throw an error.");
     }
 }
@@ -222,5 +221,5 @@ function withValidation([f1, f2]) {
 const createUserWithValidation = withValidation([
     validateName,
     validateAge
-])("Peter", 12);
+])("Jon", 12);
 
