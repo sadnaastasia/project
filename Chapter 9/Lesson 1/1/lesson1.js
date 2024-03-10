@@ -60,7 +60,7 @@ class Clock {
         console.log(output);
     }
     start() {
-        this.render()
+        this.render();
         this.timer = setInterval(() => this.render(), 1000);
     }
     stop() {
