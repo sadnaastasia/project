@@ -226,39 +226,66 @@
 
 
 function isRequired(value) {
-    if (!value) {
-        console.error("Name is required."); return false;
+    let str = "Error: Name is required."
+    try {
+        if (!value) {
+            throw new Error(str);
+        }
+    } catch(err) {
+        console.log(err.message);
+        return str;
     }
 }
 
 function isString(value) {
-    if (typeof value !== "string") {
-        console.error("Name must be a string."); return false;
+    let str = "Error: Name must be a string."
+    try {
+        if (typeof value !== "string") {
+            throw new Error(str);
+        }
+    } catch (err) {
+        console.log(err.message);
+        return str;
     }
 }
 
 function hasLengthBetween(a, b) {
+    let str = "Error: Name must be between 1 and 100 characters long."
     return function (value) {
-        if (value.length < a || value.length > b) {
-            console.error(`Name must be between ${a} and ${b} characters long.`);
-            return false;
+        try {
+            if (value.length < a || value.length > b) {
+                throw new Error(str);
+            }
+        } catch (err) {
+            console.log(err.message);
+            return str;
         }
     }
 }
 
 
 function isNumber(value) {
-    if (typeof value !== "number") {
-        console.error("Age must be a number.");
-        return false;
+    let str = "Error: Age must be a number."
+    try {
+        if (typeof value !== "number") {
+            throw new Error(str);
+        }
+    } catch (err) {
+        console.log(err.message);
+        return str;
     }
 }
 
 function isGreaterThan(number) {
+    let str = "Error: Age must be greater than 0."
     return function (value) {
-        if (value < number) {
-            console.error(`Age must be greater than ${number}`);
-            return false;
+        try {
+            if (value < number) {
+                throw new Error(str);
+            }
+        } catch (err) {
+            console.log(err.message);
+            return str;
         }
     }
 }
@@ -267,11 +294,10 @@ function isGreaterThan(number) {
 function composeValidators() {
     let arr = [].concat(...arguments);
     return function (value) {
+        let result;
         for (let i = 0; i < arr.length; i++) {
-            let result = arr[i](value);
-            if (result == false) return false;
+            if (result = arr[i](value)) return result;
         }
-        return true;
     }
 }
 
@@ -289,20 +315,21 @@ let validateAge = composeValidators(
 
 
 function withValidation(arrWithFunctions) {
+    let result = true;
     return function () {
         let arrWithParameters = [].concat(...arguments);
-        let result = [];
         if (arrWithFunctions.length != arrWithParameters.length) {
-            console.error("Error"); return;
+            console.log("Error"); return;
         }
         for (let i = 0; i < arrWithFunctions.length; i++) {
             for (let j = 0; j < arrWithParameters.length; j++) {
-                if (i == j) result.push(arrWithFunctions[i](arrWithParameters[j]));
+                if (i == j && arrWithFunctions[i](arrWithParameters[j])) {
+                    result = false;
+                }
             }
-            if (result.length == 2 && result[0] == true && result[1] == true) {
-                console.log("All parameters are valid. The function doesn't throw an error.");
-            }
-            if (result.length == 2) result = [];
+        }
+        if (result == true) {
+            console.log("All parameters are valid. The function doesn't throw an error.");
         }
     }
 }
@@ -312,5 +339,6 @@ const createUserWithValidation = withValidation([
     validateAge,
     validateName,
     validateAge
-])("T", "12", "Peter", 13);
+])("Tom", 12, "Peter", 13);
+
 
