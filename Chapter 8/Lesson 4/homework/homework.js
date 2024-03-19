@@ -223,41 +223,43 @@
 //     validateAge
 // ])("Jon", 12);
 
-
+function createUser(name, age) {
+    return {
+        name: name,
+        age: age,
+    };
+}
 
 function isRequired(value) {
-    let str = "Error: Name is required."
+    let str = "is required."
     try {
         if (!value) {
             throw new Error(str);
         }
-    } catch(err) {
-        console.log(err.message);
+    } catch (err) {
         return str;
     }
 }
 
 function isString(value) {
-    let str = "Error: Name must be a string."
+    let str = "must be a string."
     try {
         if (typeof value !== "string") {
             throw new Error(str);
         }
     } catch (err) {
-        console.log(err.message);
         return str;
     }
 }
 
 function hasLengthBetween(a, b) {
-    let str = "Error: Name must be between 1 and 100 characters long."
+    let str = "must be between 1 and 100 characters long."
     return function (value) {
         try {
             if (value.length < a || value.length > b) {
                 throw new Error(str);
             }
         } catch (err) {
-            console.log(err.message);
             return str;
         }
     }
@@ -265,26 +267,24 @@ function hasLengthBetween(a, b) {
 
 
 function isNumber(value) {
-    let str = "Error: Age must be a number."
+    let str = "must be a number."
     try {
         if (typeof value !== "number") {
             throw new Error(str);
         }
     } catch (err) {
-        console.log(err.message);
         return str;
     }
 }
 
 function isGreaterThan(number) {
-    let str = "Error: Age must be greater than 0."
+    let str = "must be greater than 0."
     return function (value) {
         try {
             if (value < number) {
                 throw new Error(str);
             }
         } catch (err) {
-            console.log(err.message);
             return str;
         }
     }
@@ -293,10 +293,15 @@ function isGreaterThan(number) {
 
 function composeValidators() {
     let arr = [].concat(...arguments);
-    return function (value) {
-        let result;
-        for (let i = 0; i < arr.length; i++) {
-            if (result = arr[i](value)) return result;
+    return function (fieldName) {
+        return function (value) {
+            let result;
+            for (let i = 0; i < arr.length; i++) {
+                if (result = arr[i](value)) {
+                    console.error(fieldName + " " + result);
+                    return result;
+                }
+            }
         }
     }
 }
@@ -305,40 +310,42 @@ let validateName = composeValidators(
     isRequired,
     isString,
     hasLengthBetween(2, 100)
-);
+)("Name");
 
 
 let validateAge = composeValidators(
     isNumber,
     isGreaterThan(0)
-);
+)("Age");
 
 
 function withValidation(arrWithFunctions) {
     let result = true;
-    return function () {
-        let arrWithParameters = [].concat(...arguments);
-        if (arrWithFunctions.length != arrWithParameters.length) {
-            console.log("Error"); return;
-        }
-        for (let i = 0; i < arrWithFunctions.length; i++) {
-            for (let j = 0; j < arrWithParameters.length; j++) {
-                if (i == j && arrWithFunctions[i](arrWithParameters[j])) {
-                    result = false;
+    return function (obj) {
+        return function () {
+            let arrWithParameters = [].concat(...arguments);
+            if (arrWithFunctions.length != arrWithParameters.length) {
+                console.error("Error"); return;
+            }
+            for (let i = 0; i < arrWithFunctions.length; i++) {
+                for (let j = 0; j < arrWithParameters.length; j++) {
+                    if (i == j && arrWithFunctions[i](arrWithParameters[j])) {
+                        result = false; return;
+                    }
                 }
             }
-        }
-        if (result == true) {
-            console.log("All parameters are valid. The function doesn't throw an error.");
+            if (result == true) {
+                console.log("All parameters are valid. The function doesn't throw an error.");
+                return obj.call(this, ...arguments);
+            }
         }
     }
 }
 
-const createUserWithValidation = withValidation([
-    validateName,
-    validateAge,
+let createUserWithValidation = withValidation([
     validateName,
     validateAge
-])("Tom", 12, "Peter", 13);
-
-
+]);
+createUser = createUserWithValidation(createUser);
+let user = createUser("Bob", 19);
+console.log(user);
