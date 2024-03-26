@@ -1,6 +1,4 @@
-function createCalendar(h1, elem, year, month) {
-  let months = ['', 'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
-  h1.textContent = `${months[month]} ${year}`;
+function createCalendar(elem, year, month) {
   let daydOfWeek = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
   let weekDays = document.createElement('tr');
   elem.append(weekDays);
@@ -45,4 +43,4 @@ function createCalendar(h1, elem, year, month) {
   }
 }
 
-createCalendar(monthYear, calendar, 2024, 3);
+createCalendar(calendar, 2012, 9);
