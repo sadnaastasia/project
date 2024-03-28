@@ -13,12 +13,11 @@ let list = {
   };
 
 function printList(list) {
-    let list2 = list;
-    while (true) {
-        if (list2 == null) break;
-        console.log(list2.value);
-        list2 = list2.next;
-    }
+    let currentNode = list;
+    while (currentNode) {
+      console.log(currentNode.value);
+      currentNode = currentNode.next;
+  }
 }
 
 // function printList(list) {
