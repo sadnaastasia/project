@@ -3,9 +3,9 @@ function work(a, b) {
 }
 
 function spy(func) {
-  function f() {
-    f.calls.push([...arguments]);
-    return func(...arguments);
+  function f(...args) {
+    f.calls.push([...args]);
+    return func.call(this, ...args);
   }
   f.calls = [];
   return f;
