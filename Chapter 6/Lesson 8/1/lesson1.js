@@ -1,6 +1,6 @@
 // function printNumbers(from, to) {
 //   let current = from;
-//   timerid = setInterval(function () {
+//   let timerid = setInterval(function () {
 //     alert(current);
 //     if (current == to) clearInterval(timerid);
 //     current++;
