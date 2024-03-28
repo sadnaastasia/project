@@ -39,7 +39,7 @@ class Clock {
 //         this.precision = precision;
 //     }
 //     start() {
-//         super.render();
+//         this.render();
 //         this.timer = setInterval(() => this.render(), this.precision);
 //     }
 // }
