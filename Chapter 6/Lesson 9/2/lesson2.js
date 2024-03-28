@@ -4,7 +4,7 @@ function f(x) {
 
 function delay(f, ms) {
   return function() {
-    setTimeout(f.call(this, ...arguments), ms);
+    setTimeout(() => f.call(this, ...arguments), ms);
   }
 }
 
