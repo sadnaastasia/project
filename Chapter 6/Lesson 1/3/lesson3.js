@@ -1,5 +1,4 @@
 function fib(n) {
-    let start = Date.now();
     let arr = [];
     for (let i = 1; i <= n; i++) {
         if (i == 1 || i == 2) {
@@ -7,10 +6,20 @@ function fib(n) {
         }
         arr[i] = arr[i - 1] + arr[i - 2];
     }
-    let finish = Date.now();
-
-    return `Result: ${arr[n]}, time spent: ${finish - start} ms`;
+    return arr[n];
 }
+
+function bench(f) {
+    let start = Date.now();
+    return function (n) {
+        let result = f(n);
+        alert(result);
+        let finish = Date.now();
+        return `Time spent: ${finish - start} ms`;
+    }
+}
+
+fib = bench(fib);
 
 // function fib(n) {
 //     if (n == 1 || n == 2) {
