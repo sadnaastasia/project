@@ -9,7 +9,7 @@
 
 function printNumbers(from, to) {
   let current = from;
-  timerid = setTimeout(function func() {
+  setTimeout(function func() {
     alert(current);
     if (current < to) setTimeout(func, 1000);
     current++;
