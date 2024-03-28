@@ -12,4 +12,4 @@ let user = {
   }
 };
 
-askPassword(() => user.login(true).bind(user), () => user.login(false).bind(user)); // ?
+askPassword(() => user.login(true), () => user.login(false)); // ?
