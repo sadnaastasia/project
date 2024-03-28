@@ -95,8 +95,8 @@ console.log(filterPostsByCommentsLength(posts, 2));
 
 
 function filterPostsByNumberOfLikesInComments(posts, minNumberOfLikes) {
-    let postFilteredByComments = posts.filter(post => post.comments.every(comments => comments.numberOfLikes >= minNumberOfLikes));
-    return postFilteredByComments;
+    let postsFilteredByComments = posts.filter(post => post.comments.every(comments => comments.numberOfLikes >= minNumberOfLikes));
+    return postsFilteredByComments;
 }
 console.log(filterPostsByNumberOfLikesInComments(posts, 20));
 
@@ -161,11 +161,11 @@ function getArrayOfAuthorsOfComments(posts) {
 function getObjOfAuthorsAndNumberOfComments(posts) {
     let arrayOfAuthorsOfComments = getArrayOfAuthorsOfComments(posts);
     objOfAuthorsAndNumberOfComments = arrayOfAuthorsOfComments.reduce(function (obj, author) {
-        if (obj.hasOwnProperty(author.id)) {
-            obj[author.id] += 1;
+        if (obj.hasOwnProperty(author.name)) {
+            obj[author.name] += 1;
             return obj;
         }
-        obj[author.id] = 1;
+        obj[author.name] = 1;
         return obj;
     }, {});
     return objOfAuthorsAndNumberOfComments;
@@ -174,14 +174,14 @@ function getObjOfAuthorsAndNumberOfComments(posts) {
 
 function findAuthorOfMostComments(posts) {
     let arrOfAuthorsAndNumberOfComments = Object.entries(getObjOfAuthorsAndNumberOfComments(posts));
-    let authorOfMostComments = arrOfAuthorsAndNumberOfComments.reduce(function(authorOfMostComments, author) {
-        if (authorOfMostComments[1] < author[1]) {
-            return authorOfMostComments = author; 
+    let arrOfAuthorOfMostComments = arrOfAuthorsAndNumberOfComments.reduce(function(resultPair, currentPair) {
+        if (resultPair[1] < currentPair[1]) {
+            return resultPair = currentPair; 
         } else {
-            return authorOfMostComments;
+            return resultPair;
         }
     }, [0, 0])
-    return authorOfMostComments[0];
+    return arrOfAuthorOfMostComments[0];
 }
 console.log(findAuthorOfMostComments(posts));
 
