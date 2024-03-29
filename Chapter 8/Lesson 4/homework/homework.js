@@ -232,22 +232,14 @@ function createUser(name, age) {
 
 function isRequired(value) {
     let str = "is required."
-    try {
-        if (!value) {
-            throw new Error(str);
-        }
-    } catch (err) {
+    if (!value) {
         return str;
     }
 }
 
 function isString(value) {
     let str = "must be a string."
-    try {
-        if (typeof value !== "string") {
-            throw new Error(str);
-        }
-    } catch (err) {
+    if (typeof value !== "string") {
         return str;
     }
 }
@@ -255,24 +247,15 @@ function isString(value) {
 function hasLengthBetween(a, b) {
     let str = "must be between 1 and 100 characters long."
     return function (value) {
-        try {
-            if (value.length < a || value.length > b) {
-                throw new Error(str);
-            }
-        } catch (err) {
+        if (value.length < a || value.length > b) {
             return str;
         }
     }
 }
 
-
 function isNumber(value) {
     let str = "must be a number."
-    try {
-        if (typeof value !== "number") {
-            throw new Error(str);
-        }
-    } catch (err) {
+    if (typeof value !== "number") {
         return str;
     }
 }
@@ -280,26 +263,21 @@ function isNumber(value) {
 function isGreaterThan(number) {
     let str = "must be greater than 0."
     return function (value) {
-        try {
-            if (value < number) {
-                throw new Error(str);
-            }
-        } catch (err) {
+        if (value < number) {
             return str;
         }
     }
 }
 
-
-function composeValidators() {
-    let arr = [].concat(...arguments);
+function composeValidators(...arr) {
     return function (fieldName) {
         return function (value) {
             let result;
             for (let i = 0; i < arr.length; i++) {
-                if (result = arr[i](value)) {
-                    console.error(fieldName + " " + result);
-                    return result;
+                result = arr[i](value);
+                if (result) {
+                    let message = `${fieldName} ${result}`;
+                    return message;
                 }
             }
         }
@@ -320,24 +298,27 @@ let validateAge = composeValidators(
 
 
 function withValidation(arrWithFunctions) {
-    let result = true;
-    return function (obj) {
+    return function (func) {
         return function () {
             let arrWithParameters = [].concat(...arguments);
             if (arrWithFunctions.length != arrWithParameters.length) {
-                console.error("Error"); return;
+                throw new Error("The number of passed functions and arguments is different.");
             }
-            for (let i = 0; i < arrWithFunctions.length; i++) {
+            outer: for (let i = 0; i < arrWithFunctions.length; i++) {
                 for (let j = 0; j < arrWithParameters.length; j++) {
-                    if (i == j && arrWithFunctions[i](arrWithParameters[j])) {
-                        result = false; return;
+                    let result = arrWithFunctions[i](arrWithParameters[j]);
+                    try {
+                        if (i == j && result) throw new Error(`${result}`);
+                    }
+                    catch (err) {
+                        console.error(err.message);
+                        if (i == arrWithFunctions.length - 1) return;
+                        continue outer;
                     }
                 }
             }
-            if (result == true) {
-                console.log("All parameters are valid. The function doesn't throw an error.");
-                return obj.call(this, ...arguments);
-            }
+            console.log("All parameters are valid. The function doesn't throw an error.");
+            return func.call(this, ...arguments);
         }
     }
 }
@@ -347,5 +328,5 @@ let createUserWithValidation = withValidation([
     validateAge
 ]);
 createUser = createUserWithValidation(createUser);
-let user = createUser("Bob", 19);
+let user = createUser("", "8");
 console.log(user);
