@@ -161,11 +161,11 @@ function getArrayOfAuthorsOfComments(posts) {
 function getObjOfAuthorsAndNumberOfComments(posts) {
     let arrayOfAuthorsOfComments = getArrayOfAuthorsOfComments(posts);
     objOfAuthorsAndNumberOfComments = arrayOfAuthorsOfComments.reduce(function (obj, author) {
-        if (obj.hasOwnProperty(author.name)) {
-            obj[author.name] += 1;
+        if (obj.hasOwnProperty(author.id)) {
+            obj[author.id] += 1;
             return obj;
         }
-        obj[author.name] = 1;
+        obj[author.id] = 1;
         return obj;
     }, {});
     return objOfAuthorsAndNumberOfComments;
@@ -173,15 +173,17 @@ function getObjOfAuthorsAndNumberOfComments(posts) {
 
 
 function findAuthorOfMostComments(posts) {
-    let arrOfAuthorsAndNumberOfComments = Object.entries(getObjOfAuthorsAndNumberOfComments(posts));
-    let arrOfAuthorOfMostComments = arrOfAuthorsAndNumberOfComments.reduce(function(resultPair, currentPair) {
+    let resultPair = Object.entries(getObjOfAuthorsAndNumberOfComments(posts));
+    let arrOfAuthorOfMostComments = resultPair.reduce(function(resultPair, currentPair) {
         if (resultPair[1] < currentPair[1]) {
             return resultPair = currentPair; 
         } else {
             return resultPair;
         }
     }, [0, 0])
-    return arrOfAuthorOfMostComments[0];
+    let listOfAuthors = getArrayOfAuthorsOfComments(posts);
+    let author = listOfAuthors.find(author => author.id = arrOfAuthorOfMostComments[0]);
+    return author.name;
 }
 console.log(findAuthorOfMostComments(posts));
 
