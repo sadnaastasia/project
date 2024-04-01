@@ -5,27 +5,20 @@
     <title>Task</title>
     <meta charset="UTF-8">
     <style>
-        table {
-            border-collapse: collapse;
-        }
-    
-        td,
-        th {
-            border: 1px solid black;
-            padding: 3px;
-            text-align: center;
-        }
-    
-        th {
-            font-weight: bold;
-            background-color: #E6E6E6;
-        }
+       
     </style>
 </head>
 
 <body>
 
-    <div id="calendar"></div>
+    <div><span id="hours" ; style="color: red;">hh</span>:<span id="minutes" ;
+            style="color: green;">mm</span>:<span id="seconds" ; style="color: blue;">ss</span></div>
+    <!-- клик по этой кнопке вызовет clockStart() -->
+    <input type="button" onclick="clockStart()" value="Старт">
+
+    <!-- клик по этой кнопке вызовет clockStop() -->
+    <input type="button" onclick="clockStop()" value="Стоп">
+
     <script src="./lesson8.js"></script>
 
 </body>

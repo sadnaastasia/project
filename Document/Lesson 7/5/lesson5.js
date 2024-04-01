@@ -17,18 +17,6 @@ let data = {
 };
 
 let container = document.getElementById('container');
-// function createTree(container, data) {
-//   let json = JSON.stringify(data);
-//   json = json.split('":{"').join('<ul><li>');
-//   json = json.split(':{}}').join(':{}}</ul>');
-//   json = json.split(',').join('<li>');
-//   json = json.split('{}').join('</li>');
-//   json = json.split('{').join('<li>');
-//   json = json.split('}').join('</li>');
-//   json = json.split('"').join('');
-//   json = json.split(':').join('');
-//   container.innerHTML = json;
-// }
 
 function createTree(container, data) {
   if (Object.keys(data).length != 0) {
