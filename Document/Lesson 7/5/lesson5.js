@@ -16,7 +16,6 @@ let data = {
   }
 };
 
-let container = document.getElementById('container');
 
 function createTree(container, data) {
   if (Object.keys(data).length != 0) {
@@ -33,5 +32,6 @@ function createTree(container, data) {
     }
   }
 }
+
 
 createTree(container, data); 
