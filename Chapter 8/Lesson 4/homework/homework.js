@@ -1,107 +1,105 @@
 function createUser(name, age) {
-    return {
-        name: name,
-        age: age,
-    };
+  return {
+    name: name,
+    age: age,
+  };
 }
 
 function isRequired(value) {
-    let str = "is required."
-    if (!value) {
-        return str;
-    }
+  let str = 'is required.';
+  if (value === undefined) {
+    return str;
+  }
 }
 
 function isString(value) {
-    let str = "must be a string."
-    if (typeof value !== "string") {
-        return str;
+  if (value !== undefined) {
+    let str = 'must be a string.';
+    if (typeof value !== 'string') {
+      return str;
     }
+  }
 }
 
 function hasLengthBetween(a, b) {
-    let str = "must be between 1 and 100 characters long."
-    return function (value) {
-        if (value.length < a || value.length > b) {
-            return str;
-        }
+  let str = `must be between ${a} and ${b} characters long.`;
+  return function (value) {
+    if (value !== undefined) {
+      if (value.length < a || value.length > b) {
+        return str;
+      }
     }
+  };
 }
 
 function isNumber(value) {
-    let str = "must be a number."
-    if (typeof value !== "number") {
-        return str;
+  if (value !== undefined) {
+    let str = 'must be a number.';
+    if (typeof value !== 'number') {
+      return str;
     }
+  }
 }
 
 function isGreaterThan(number) {
-    let str = "must be greater than 0."
-    return function (value) {
-        if (value < number) {
-            return str;
-        }
+  let str = `must be greater than ${number}.`;
+  return function (value) {
+    if (value !== undefined) {
+      if (value <= number) {
+        return str;
+      }
     }
+  };
 }
 
-function composeValidators(...arr) {
-    return function (fieldName) {
-        return function (value) {
-            let result;
-            for (let i = 0; i < arr.length; i++) {
-                result = arr[i](value);
-                if (result) {
-                    let message = `${fieldName} ${result}`;
-                    return message;
-                }
-            }
+function composeValidators(...validators) {
+  return function (fieldName) {
+    return function (value) {
+      let error;
+      for (let i = 0; i < validators.length; i++) {
+        error = validators[i](value);
+        if (error) {
+          let message = `${fieldName} ${error}`;
+          return message;
         }
-    }
+      }
+    };
+  };
 }
 
 let validateName = composeValidators(
-    isRequired,
-    isString,
-    hasLengthBetween(2, 100)
-)("Name");
+  isRequired,
+  isString,
+  hasLengthBetween(2, 100)
+)('Name');
 
-
-let validateAge = composeValidators(
-    isNumber,
-    isGreaterThan(0)
-)("Age");
-
+let validateAge = composeValidators(isNumber, isGreaterThan(0))('Age');
 
 function withValidation(arrWithFunctions) {
-    return function (func) {
-        return function () {
-            let arrWithParameters = [].concat(...arguments);
-            if (arrWithFunctions.length != arrWithParameters.length) {
-                throw new Error("The number of passed functions and arguments is different.");
-            }
-            outer: for (let i = 0; i < arrWithFunctions.length; i++) {
-                for (let j = 0; j < arrWithParameters.length; j++) {
-                    let result = arrWithFunctions[i](arrWithParameters[j]);
-                    try {
-                        if (i == j && result) throw new Error(`${result}`);
-                    }
-                    catch (err) {
-                        console.error(err.message);
-                        if (i == arrWithFunctions.length - 1) return;
-                        continue outer;
-                    }
-                }
-            }
-            console.log("All parameters are valid. The function doesn't throw an error.");
-            return func.call(this, ...arguments);
+  return function (func) {
+    return function (...arrWithParameters) {
+      if (arrWithFunctions.length != arrWithParameters.length) {
+        throw new Error(
+          'The number of passed functions and arguments is different.'
+        );
+      }
+      let error = [];
+      for (let i = 0; i < arrWithFunctions.length; i++) {
+        let result = arrWithFunctions[i](arrWithParameters[i]);
+        if (result) {
+          error.push(result);
         }
-    }
+      }
+      if (error.length > 0) {
+        throw new Error(`${error.join(' ')}`);
+      }
+      return func.call(this, ...arguments);
+    };
+  };
 }
 
-let createUserWithValidation = withValidation([
-    validateName,
-    validateAge
-]);
-createUser = createUserWithValidation(createUser);
-let user = createUser("", "8");
+let createUserWithValidation = withValidation([validateName, validateAge])(
+  createUser
+);
+let user = createUserWithValidation('Nastya', 24);
 console.log(user);
