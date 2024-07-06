@@ -1,0 +1,1 @@
+alert(document.querySelector('div').dataset.widgetName);
